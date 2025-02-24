@@ -6,16 +6,19 @@ import {NavigationContainer} from '@react-navigation/native';
 import AuthStack from './src/navigation/AuthStack';
 import AppStack from './src/navigation/AppStack';
 import { Provider } from 'react-redux';
-import mystore from './src/redux/store/mystore';
+import { mystore, persistedStore } from './src/redux/store/mystore';
+import { PersistGate } from 'redux-persist/integration/react';
 
 function App() {
   return (
 
     <Provider store={mystore}>
-     <NavigationContainer>
+      <PersistGate persistor={persistedStore}>
+      <NavigationContainer>
       <AppStack />
       {/* <AuthStack /> */}
     </NavigationContainer>
+      </PersistGate>
     </Provider>
    
   );

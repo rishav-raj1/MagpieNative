@@ -6,7 +6,7 @@ import {deleteUser} from '../redux/slice/UserSlice';
 
 
 const HomeScreen = () => {
-  const users = useSelector(state => state.users)
+  const users = useSelector(state => state.users.users)
   const navigation = useNavigation();
   const dispatch = useDispatch();
   console.log(users);
