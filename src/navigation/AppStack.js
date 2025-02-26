@@ -31,6 +31,7 @@ const AuthStack = () => {
         name="Home"
         component={TabNavigator}
         options={{
+          headerShown: false,
           drawerIcon: ({color}) => (
             <Ionicons name="home-outline" size={22} color={color} />
           ),
