@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   SafeAreaView,
   View,
@@ -17,8 +17,12 @@ import TwitterSVG from '../assets/images/misc/twitter.svg';
 
 import CustomButton from '../components/CustomButton';
 import InputField from '../components/InputField';
+import { AuthContext } from '../context/AuthContext';
+
 
 const LoginScreen = ({navigation}) => {
+  const {login} = useContext(AuthContext)
+
   return (
     <SafeAreaView style={{flex: 1, justifyContent: 'center', backgroundColor:"#9eb4ff"}}>
       <View style={{paddingHorizontal: 25}}>
@@ -74,7 +78,7 @@ const LoginScreen = ({navigation}) => {
           fieldButtonFunction={() => {}}
         />
         
-        <CustomButton label={"Login"} onPress={() => {}} />
+        <CustomButton label={"Login"} onPress={() => {login()}} />
 
         <Text style={{textAlign: 'center', color: '#666', marginBottom: 30}}>
           Or, login with ...

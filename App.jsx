@@ -8,18 +8,33 @@ import AppStack from './src/navigation/AppStack';
 import { Provider } from 'react-redux';
 import { mystore, persistedStore } from './src/redux/store/mystore';
 import { PersistGate } from 'redux-persist/integration/react';
+import { AuthProvider } from './src/context/AuthContext';
+import AppNav from './src/navigation/AppNav';
+import Providers from './src/navigation/Providers';
 
 function App() {
   return (
 
+
     <Provider store={mystore}>
       <PersistGate persistor={persistedStore}>
-      <NavigationContainer>
-      <AppStack />
-      {/* <AuthStack /> */}
-    </NavigationContainer>
+      <Providers />
       </PersistGate>
     </Provider>
+
+
+    // <AuthProvider>
+    //   <AppNav />
+    // </AuthProvider>
+
+    // <Provider store={mystore}>
+    //   <PersistGate persistor={persistedStore}>
+    //   <NavigationContainer>
+    //   <AppStack />
+    //   {/* <AuthStack /> */}
+    // </NavigationContainer>
+    //   </PersistGate>
+    // </Provider>
    
   );
 }
