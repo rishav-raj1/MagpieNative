@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   SafeAreaView,
   View,
@@ -19,9 +19,42 @@ import CustomButton from '../components/CustomButton';
 import InputField from '../components/InputField';
 import { AuthContext } from '../context/AuthContext';
 
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+
 
 const LoginScreen = ({navigation}) => {
   const {login} = useContext(AuthContext)
+  const [userInfo, setUserInfo] = useState(null);
+
+
+ useEffect(()=>{
+  GoogleSignin.configure({
+    webClientId:'350289777630-sa58urkd82ieifb218atig83ree65rvk.apps.googleusercontent.com'
+  });
+ },[])
+
+ const signIn = async () => {
+  try {
+    await GoogleSignin.hasPlayServices();
+    const userInfo = await GoogleSignin.signIn();
+    setUserInfo(userInfo)
+    console.log("errorvvvvvvvv1111", userInfo)
+  } catch (error){
+    console.log("errorvvvvvvvv222", statusCodes)
+    if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+      // Cancelled
+    } else if (error.code === statusCodes.IN_PROGRESS) {
+      // IN_PROGRESS
+    } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+      // PLAY_SERVICES_NOT_AVAILABLE
+    } else{
+      // error
+    }
+  }
+ }
+
+
+
 
   return (
     <SafeAreaView style={{flex: 1, justifyContent: 'center', backgroundColor:"#9eb4ff"}}>
@@ -91,7 +124,9 @@ const LoginScreen = ({navigation}) => {
             marginBottom: 30,
           }}>
           <TouchableOpacity
-            onPress={() => {}}
+            onPress={() => {
+              signIn();
+            }}
             style={{
               borderColor: '#6286ff',
               borderWidth: 2,

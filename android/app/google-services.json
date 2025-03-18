@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "350289777630",
+    "project_id": "naturepedia-9447f",
+    "storage_bucket": "naturepedia-9447f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:350289777630:android:c5633a8fa8c6671b5e834f",
+        "android_client_info": {
+          "package_name": "com.naturepedia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "350289777630-12vc2j06rotpisfomrngdvvaq06dhtqp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.naturepedia",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "350289777630-sa58urkd82ieifb218atig83ree65rvk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwO9LQgNeyq8ZklGDNBr2htfnXuP2VETs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "350289777630-sa58urkd82ieifb218atig83ree65rvk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
