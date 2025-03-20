@@ -23,6 +23,8 @@ import { AuthContext } from '../context/AuthContext';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
+// import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 
 
@@ -34,6 +36,33 @@ const GoogleSignIn = ({navigation}) => {
   const [password, setPassword] = useState('');
 
   console.log(email, password, "qqqqqqqqq11")
+
+
+  async function onGoogleButtonPress() {
+    // Check if your device supports Google Play
+    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+    // Get the users ID token
+    const signInResult = await GoogleSignin.signIn();
+
+    console.log("errorvvvvvvvv1111", signInResult)
+    setUserInfo(signInResult)
+  
+    // Try the new style of google-sign in result, from v13+ of that module
+    idToken = signInResult.data?.idToken;
+    if (!idToken) {
+      // if you are using older versions of google-signin, try old style result
+      idToken = signInResult.idToken;
+    }
+    if (!idToken) {
+      throw new Error('No ID token found');
+    }
+  
+    // Create a Google credential with the token
+    const googleCredential = auth.GoogleAuthProvider.credential(signInResult.data.idToken);
+  
+    // Sign-in the user with the credential
+    return auth().signInWithCredential(googleCredential);
+  }
 
   
 
@@ -87,48 +116,44 @@ const GoogleSignIn = ({navigation}) => {
   };
 
 
- useEffect(()=>{
-  GoogleSignin.configure({
-    webClientId:'350289777630-sa58urkd82ieifb218atig83ree65rvk.apps.googleusercontent.com'
-  });
- },[])
+//  useEffect(()=>{
+//   GoogleSignin.configure({
+//     webClientId:'350289777630-sa58urkd82ieifb218atig83ree65rvk.apps.googleusercontent.com'
+//   });
+//  },[])
+
+GoogleSignin.configure({
+  webClientId: '350289777630-sa58urkd82ieifb218atig83ree65rvk.apps.googleusercontent.com',
+});
+
 
  const logoutBtn = () => {
     setUserInfo(null);
     logout();
  }
 
- const signIn = async () => {
-  try {
-    await GoogleSignin.hasPlayServices();
-    const userInfo = await GoogleSignin.signIn();
-    setUserInfo(userInfo)
-    console.log("errorvvvvvvvv1111", userInfo)
-   // login();
-  } catch (error){
-    console.log("errorvvvvvvvv222", statusCodes)
-    if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-      // Cancelled
-    } else if (error.code === statusCodes.IN_PROGRESS) {
-      // IN_PROGRESS
-    } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-      // PLAY_SERVICES_NOT_AVAILABLE
-    } else{
-      // error
-    }
-  }
- }
+//  const signIn = async () => {
+//   try {
+//     await GoogleSignin.hasPlayServices();
+//     const userInfo = await GoogleSignin.signIn();
+//     setUserInfo(userInfo)
+//     console.log("errorvvvvvvvv1111", userInfo)
+//    // login();
+//   } catch (error){
+//     console.log("errorvvvvvvvv222", statusCodes)
+//     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+//       // Cancelled
+//     } else if (error.code === statusCodes.IN_PROGRESS) {
+//       // IN_PROGRESS
+//     } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+//       // PLAY_SERVICES_NOT_AVAILABLE
+//     } else{
+//       // error
+//     }
+//   }
+//  }
  
 
- /*
-
-    const token = await GoogleSignin.signIn();
-    const googleCredential = auth.GoogleAuthProvider.credential(token);
-    googleCredential.token = googleCredential?.token?.idToken; //Adding this line fixed the issue
-    const firebaseUserCredential = await auth().signInWithCredential(googleCredential);
-    setUserInfo(firebaseUserCredential.user);
-
- */
 
 
 
@@ -244,9 +269,10 @@ const GoogleSignIn = ({navigation}) => {
                           marginTop:50
                         }}>
                 <TouchableOpacity
-                onPress={() => {
-                  signIn();
-                }}
+                // onPress={() => {
+                //   signIn();
+                // }}
+                onPress={() => onGoogleButtonPress().then(() => console.log('Signed in with Google!'))}
                 style={{
                   borderColor: '#6286ff',
                   borderWidth: 2,
