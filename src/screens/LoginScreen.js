@@ -96,7 +96,7 @@ const LoginScreen = ({navigation}) => {
           keyboardType="email-address"
         />
 
-<InputField
+       <InputField
           label={'Password'}
           icon={
             <Ionicons

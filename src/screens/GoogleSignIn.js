@@ -8,6 +8,16 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+import auth from '@react-native-firebase/auth';
+
+import InputField from '../components/InputField';
+
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+import TwitterSVG from '../assets/images/misc/twitter.svg';
+
+
 import GoogleSVG from '../assets/images/misc/google.svg';
 import { AuthContext } from '../context/AuthContext';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -20,8 +30,61 @@ const GoogleSignIn = ({navigation}) => {
   const {login} = useContext(AuthContext)
   const [userInfo, setUserInfo] = useState(null);
   const {logout} = useContext(AuthContext)
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  console.log(userInfo?.data?.user?.email)
+  console.log(email, password, "qqqqqqqqq11")
+
+  
+
+
+  // const createUser = () => {
+
+  //   console.log(email, password, "qqqqqqqqq")
+
+  //   auth()
+  // .createUserWithEmailAndPassword(
+  //   email, password
+  // )
+  // .then(() => {
+  //   console.log('User account created & signed in!');
+  // })
+  // .catch(error => {
+  //   if (error.code === 'auth/email-already-in-use') {
+  //     console.log('That email address is already in use!');
+  //   }
+
+  //   if (error.code === 'auth/invalid-email') {
+  //     console.log('That email address is invalid!');
+  //   }
+
+  //   console.error(error);
+  // });
+  // }
+
+  const createUser = () => {
+    console.log(email, password, "qqqqqqqqq")
+    if(email && password === '' || email && password === null){
+    auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        console.log("User account created & signed in!");
+      })
+      .catch((error) => {
+        if (error.code === "auth/email-already-in-use") {
+          console.log("That email address is already in use!");
+        }
+  
+        if (error.code === "auth/invalid-email") {
+          console.log("That email address is invalid!");
+        }
+  
+        console.error(error);
+      });
+    }else{
+      console.log("Please fill valid email & password")
+    }
+  };
 
 
  useEffect(()=>{
@@ -55,6 +118,17 @@ const GoogleSignIn = ({navigation}) => {
     }
   }
  }
+ 
+
+ /*
+
+    const token = await GoogleSignin.signIn();
+    const googleCredential = auth.GoogleAuthProvider.credential(token);
+    googleCredential.token = googleCredential?.token?.idToken; //Adding this line fixed the issue
+    const firebaseUserCredential = await auth().signInWithCredential(googleCredential);
+    setUserInfo(firebaseUserCredential.user);
+
+ */
 
 
 
@@ -66,9 +140,9 @@ const GoogleSignIn = ({navigation}) => {
 
         <View
           style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            marginBottom: 30,
+            // flexDirection: 'row',
+            // justifyContent: 'center',
+            // marginBottom: 30,
             // marginLeft: 100
           }}>
 
@@ -93,6 +167,82 @@ const GoogleSignIn = ({navigation}) => {
                                       </>
               
             ) : (
+              <View>
+                 {/* <InputField
+                 value={email}
+                 onChangeText={txt => setEmail(txt)}
+                          label={'Email ID'}
+                          icon={
+                            <MaterialIcons
+                              name="alternate-email"
+                              size={20}
+                              color="#666"
+                              style={{marginRight: 5}}
+                            />
+                          }
+                          keyboardType="email-address"
+                        />
+                
+                        <InputField
+                         value={password}
+                         onChangeText={txt => setPassword(txt)}
+                          label={'Password'}
+                          icon={
+                            <Ionicons
+                              name="lock-closed-outline"
+                              size={20}
+                              color="#666"
+                              style={{marginRight: 5}}
+                            />
+                          }
+                          inputType="password"
+                        /> */}
+
+<View style={{
+   flexDirection: 'row',
+   alignItems: 'center',
+   borderBottomWidth: 1,
+   borderColor: '#ccc',
+   paddingVertical: 8,
+   marginBottom: 15,
+}}>
+                        <TextInput
+          value={email}
+          onChangeText={setEmail}
+          placeholder="Email ID"
+          keyboardType="email-address"
+          style={{ flex: 1,
+            fontSize: 16,}}
+          // style={styles.input}
+        />
+        </View>
+
+        <View style={{
+   flexDirection: 'row',
+   alignItems: 'center',
+   borderBottomWidth: 1,
+   borderColor: '#ccc',
+   paddingVertical: 8,
+   marginBottom: 15,
+}}>
+        <TextInput
+          value={password}
+          onChangeText={setPassword}
+          placeholder="Password"
+          secureTextEntry
+          style={{ flex: 1,
+            fontSize: 16,}}
+          // style={styles.input}
+        />
+        </View>
+                        <View 
+                         style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-around',
+                          marginBottom: 30,
+                          marginLeft: 20,
+                          marginTop:50
+                        }}>
                 <TouchableOpacity
                 onPress={() => {
                   signIn();
@@ -105,7 +255,23 @@ const GoogleSignIn = ({navigation}) => {
                   paddingVertical: 10,
                 }}>
                 <GoogleSVG height={24} width={24} />
-              </TouchableOpacity>  
+              </TouchableOpacity> 
+
+              <TouchableOpacity
+                onPress={() => {
+                  createUser();
+                }}
+                style={{
+                  borderColor: '#6286ff',
+                  borderWidth: 2,
+                  borderRadius: 10,
+                  paddingHorizontal: 30,
+                  paddingVertical: 10,
+                }}>
+                <TwitterSVG height={24} width={24} />
+              </TouchableOpacity>
+              </View> 
+              </View> 
             )
 
             }
